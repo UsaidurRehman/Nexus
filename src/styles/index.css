@@ -1,0 +1,189 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===========================================================================
+ * NEXUS '26 — global styles
+ * Palette source: official Canva design system (BIIT blue #0531D8 primary,
+ * navy -> cyan -> mint accent range). Tokens mirrored in tailwind.config.js
+ * and BRAND.COLORS in src/config.js.
+ * ======================================================================== */
+
+@layer base {
+  :root {
+    --nx-ink: #01061f;
+    --nx-abyss: #020a3d;
+    --nx-navy: #020b83;
+    --nx-blue: #0531d8;
+    --nx-cyan: #12a4d9;
+    --nx-mint: #7dfba4;
+    --nx-lilac: #b4bffd;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  body {
+    @apply bg-nexus-ink font-sans text-slate-300 antialiased;
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'ss01';
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply tracking-tightest;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--nx-mint);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--nx-mint);
+    color: var(--nx-ink);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--nx-ink);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--nx-blue), var(--nx-mint));
+    border-radius: 999px;
+  }
+}
+
+@layer components {
+  .nx-container {
+    @apply mx-auto w-full max-w-[1280px] px-5 sm:px-8 lg:px-12;
+  }
+
+  /* Frosted surface with a soft top highlight — the core card treatment. */
+  .nx-surface {
+    @apply relative rounded-2xl border border-white/[0.09] bg-white/[0.03] backdrop-blur-sm;
+    background-image: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.045) 0%,
+      rgba(255, 255, 255, 0) 38%
+    );
+  }
+
+  .nx-chip {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.05]
+           px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-nexus-lilac;
+  }
+
+  .nx-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-8 py-4
+           text-[13px] font-bold uppercase tracking-[0.14em] transition-all duration-300
+           disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .nx-btn-primary {
+    @apply nx-btn text-nexus-ink;
+    background: linear-gradient(100deg, #7dfba4 0%, #4fcca8 50%, #12a4d9 110%);
+    box-shadow: 0 12px 34px -14px rgba(125, 251, 164, 0.8);
+  }
+  .nx-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 46px -14px rgba(125, 251, 164, 0.95);
+  }
+
+  .nx-btn-ghost {
+    @apply nx-btn border border-white/20 text-white
+           hover:border-nexus-mint hover:bg-nexus-mint/[0.07] hover:text-nexus-mint;
+  }
+
+  /* Headline sheen matching the banner lock-up. */
+  .nx-gradient-text {
+    background: linear-gradient(100deg, #f7f7fc 18%, #b4bffd 52%, #7dfba4 92%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .nx-eyebrow {
+    @apply inline-flex items-center gap-2.5 text-[11px] font-bold uppercase
+           tracking-[0.28em] text-nexus-mint;
+  }
+
+  .nx-skeleton {
+    @apply relative overflow-hidden rounded-xl bg-white/[0.055];
+  }
+  .nx-skeleton::after {
+    content: '';
+    @apply absolute inset-0 -translate-x-full;
+    background-image: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0,
+      rgba(255, 255, 255, 0.06) 40%,
+      rgba(255, 255, 255, 0.11) 60%,
+      rgba(255, 255, 255, 0)
+    );
+    animation: nx-shimmer 1.8s infinite;
+  }
+
+  @keyframes nx-shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Faint cartographic grid — echoes the Rawalpindi map texture in the banner. */
+  .nx-grid-bg {
+    background-image:
+      linear-gradient(rgba(138, 149, 232, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(138, 149, 232, 0.07) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  /* Radial brand glow used behind hero and CTA blocks. */
+  .nx-glow {
+    background:
+      radial-gradient(60% 55% at 15% 10%, rgba(5, 49, 216, 0.35) 0%, transparent 60%),
+      radial-gradient(45% 45% at 85% 25%, rgba(18, 164, 217, 0.22) 0%, transparent 65%),
+      radial-gradient(40% 40% at 70% 95%, rgba(125, 251, 164, 0.12) 0%, transparent 70%);
+  }
+
+  /* Hairline divider that fades out to the right. */
+  .nx-rule {
+    height: 1px;
+    background: linear-gradient(90deg, rgba(138, 149, 232, 0.5), transparent);
+  }
+
+  .nx-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .nx-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
